@@ -66,9 +66,32 @@ app.get('/mode', (req, res, next)=>{
     if(arr.includes(NaN)){
         return next();
     }
-    let result = Math.max(arr)
-    console.log(arr)
-    return res.json({operation: "mode", value: result})
+    
+        arr.sort((x, y) => x - y);
+      
+        let bestStreak = 1;
+        let bestElem = arr[0];
+        let currentStreak = 1;
+        let currentElem = arr[0];
+      
+        for (let i = 1; i < arr.length; i++) {
+          if (arr[i-1] !== arr[i]) {
+            if (currentStreak > bestStreak) {
+              bestStreak = currentStreak;
+              bestElem = currentElem;
+            }
+      
+            currentStreak = 0;
+            currentElem = arr[i];
+          }
+      
+          currentStreak++;
+        }
+      
+        let result = currentStreak > bestStreak ? currentElem : bestElem;
+    
+      
+    return res.json({operation: "mode", value: result })
 });
 
 
